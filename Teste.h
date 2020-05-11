@@ -3,10 +3,11 @@
 
 #include "User.h"
 #include "Garnitura.h"
-
+#include "Repo.h"
 #include "RepoFile.h"
 #include "RepoTXT.h"
 #include "RepoCSV.h"
+#include "Service.h"
 
 void test_u()
 {
@@ -138,28 +139,29 @@ void test_p()
 
 	cout << "Testele pentru clasa Persoane functioneaza." << endl;
 }
+
 void test_repo()
 {
 	Repo<Garnitura>* repo = new Repo<Garnitura>();
-	Garnitura g1 = Marfa("KBT8", "Fleishmann", 8, "carbuni", 10, 20);
-	Garnitura g2 = Persoane("A0JK", "Neumann", 10, 200, 4, 30);
-	Garnitura g3 = Marfa("B1xC", "Aron", 11, "benzina", 9, 12);
-	Garnitura g4 = Persoane("DIJ9", "Stora", 9, 150, 5, 28);
+	Garnitura* g1 = new Marfa("KBT8", "Fleishmann", 8, "carbuni", 10, 20);
+	Garnitura* g2 = new Persoane("A0JK", "Neumann", 10, 200, 4, 30);
+	Garnitura* g3 = new Marfa("B1xC", "Aron", 11, "benzina", 9, 12);
+	Garnitura* g4 = new Persoane("DIJ9", "Stora", 9, 150, 5, 28);
 
 	repo->add_elem(g2);
 	repo->add_elem(g3);
 	repo->add_elem(g1);
 	assert(repo->get_size() == 3);
-	assert((repo->get_elem(0)) == g2);
-	assert((repo->get_elem(1)) == g3);
-	assert((repo->get_elem(2)) == g1);
+	assert(*(repo->get_elem(0)) == *g2);
+	assert(*(repo->get_elem(1)) == *g3);
+	assert(*(repo->get_elem(2)) == *g1);
 
 	repo->add_elem(g4);
 	assert(repo->get_size() == 4);
-	assert((repo->get_elem(0)) == g2);
-	assert((repo->get_elem(1)) == g3);
-	assert((repo->get_elem(2)) == g1);
-	assert((repo->get_elem(3)) == g4);
+	assert(*(repo->get_elem(0)) == *g2);
+	assert(*(repo->get_elem(1)) == *g3);
+	assert(*(repo->get_elem(2)) == *g1);
+	assert(*(repo->get_elem(3)) == *g4);
 
 	cout << "Testele pentru clasa Repo functioneaza." << endl;
 }
@@ -167,7 +169,6 @@ void test_csv()
 {
 	
 }
-
 void test_txt()
 {
 	
@@ -175,30 +176,28 @@ void test_txt()
 
 void test_live()
 {
-	//Repo<Garnitura>* repo = new RepoCSV("fisier-111-1.csv");
 	
-	Garnitura* g1 = new Marfa("KBT8", "Fleishmann", 8, "carbuni", 10, 20);
-	Garnitura* g2 = new Persoane("A0JK", "Neumann", 10, 200, 4, 30);
-	Garnitura* g3 = new Marfa("B1xC", "Aron", 11, "benzina", 9, 12);
-	Garnitura* g4 = new Persoane("DIJ9", "Stora", 9, 150, 5, 28);
-	/*
-	assert(repo->get_size() == 2);
-	assert(*(repo->get_elem(0)) == *g2);
-	assert(*(repo->get_elem(1)) == *g1);
-	
-	repo->add_elem(g3);
-	assert(repo->get_size() == 3);
-	assert(*(repo->get_elem(0)) == *g2);
-	assert(*(repo->get_elem(1)) == *g3);
-	assert(*(repo->get_elem(2)) == *g1);
-	
-	repo->add_elem(g4);
-	assert(repo->get_size() == 4);
-	assert(*(repo->get_elem(0)) == *g2);
-	assert(*(repo->get_elem(1)) == *g3);
-	assert(*(repo->get_elem(2)) == *g4);
-	assert(*(repo->get_elem(3)) == *g1);
-	*/
+
+}
+
+void test_service()
+{
+	Service s;
+
+	s.add_u("user1", "parola1");
+	s.add_u("user2", "parola2");
+	s.add_u("user3", "parola3");
+
+	assert(s.find_u("user2", "parola2") == 1);
+	assert(s.find_u("user4", "parola4") == -1);
+
+	s.del_u("user3", "parola3");
+	assert(s.find_u("user3", "parola3") == -1);
+
+	s.upd_u("user1", "parola1", "user10", "parola10");
+	assert(s.find_u("user10", "parola10") == 0);
+
+	cout << "Testele pentru clasa Service functioneaza." << endl;
 }
 
 void teste()
@@ -209,6 +208,8 @@ void teste()
 	test_p();
 
 	test_repo();
-	test_txt();
 	test_csv();
+	test_txt();
+
+	test_service();
 }

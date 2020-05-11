@@ -38,6 +38,7 @@ public:
 	friend ostream& operator<<(ostream &os, Garnitura &v);
 
 	virtual string toString();
+	string toStringDelimiter(char delim);
 };
 
 Garnitura::Garnitura() {}
@@ -159,4 +160,9 @@ ostream& operator<<(ostream &os, Garnitura &v)
 string Garnitura::toString()
 {
 	return model + ' ' + prod + ' ' + to_string(nr_vag) + ' ' + to_string(disp) + ' ' + to_string(rez);
+}
+
+string Garnitura::toStringDelimiter(char delim)
+{
+	return model + delim + prod + delim + to_string(nr_vag) + delim + to_string(disp) + delim + to_string(rez);
 }

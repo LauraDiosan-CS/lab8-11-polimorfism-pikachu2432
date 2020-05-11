@@ -1,13 +1,14 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include <vector>
 using namespace std;
+
 template <class T>
 class Repo
 {
 private:
-	int size;
-	T* elements;
+	vector<T*> elem;
 public:
 	Repo();
 	Repo(const Repo<T> &v);
@@ -16,51 +17,49 @@ public:
 	Repo<T>& operator=(const Repo<T> &v);
 	Repo<T> get_all();
 	int get_size();
-	T get_elem(int i);
+	T* get_elem(int i);
 
-	void add_elem(T el);
-	void del_elem(T el);
-	int find_elem(T el);
-	void upd_elem(T& el1, T& el2);
+	void add_elem(T* el);
+	void upd_elem(T* el1, T* el2);
+	int find_elem(T* el);
+	void del_elem(T* el);
 };
 
 template <class T>
-Repo<T>::Repo() 
+Repo<T>::Repo()
 {
-	size = 0;
-	elements = new T[10];
 }
 
 template <class T>
-Repo<T>::Repo(const Repo<T> &v) 
+Repo<T>::Repo(const Repo<T> &v)
 {
 	size = v.size;
-	elements = new T[v.size];
+	elem = new T[v.size];
 	for (int i = 0; i < v.size; i++)
-		elements[i] = v.elements[i]->clone();
+		elem[i] = v.elem[i]->clone();
 }
 
 template <class T>
-Repo<T>::~Repo() 
+Repo<T>::~Repo()
 {
-	if (elements) 
+	if (elem)
 	{
-		delete[] elements;
-		elements = NULL;
+		delete[] elem;
+		elem = NULL;
 	}
 }
 
 template <class T>
-Repo<T>& Repo<T>::operator=(const Repo<T> &v) 
+Repo<T>& Repo<T>::operator=(const Repo<T> &v)
 {
-	if (this != &v) 
+	if (this != &v)
 	{
 		size = v.size;
-		if (elements)
-			delete[] elements;
-		elements = new T[v.size];
+		if (elem)
+			delete[] elem;
+		elem = new T[v.size];
 		for (int i = 0; i < v.size; i++)
-			elements[i] = v.elements[i]->clone();
+			elem[i] = v.elem[i]->clone();
 	}
 	return *this;
 }
@@ -68,51 +67,61 @@ Repo<T>& Repo<T>::operator=(const Repo<T> &v)
 template<class T>
 Repo<T> Repo<T>::get_all()
 {
-	return elements;
+	return elem;
 }
 
 template <class T>
-int Repo<T>::get_size() 
+int Repo<T>::get_size()
 {
-	return size;
+	return elem.size();
 }
 
 template <class T>
-T Repo<T>::get_elem(int i) 
+T* Repo<T>::get_elem(int i)
 {
-	return elements[i];
+	return elem[i];
 }
 
-template <class T>
-void Repo<T>::add_elem(T el) 
+template<class T>
+void Repo<T>::add_elem(T* el)
 {
-	elements[size++] = el;
+	this->elem.push_back(el->clone());
 }
-template <class T>
-void Repo<T>::del_elem(T el)
+
+template<class T>
+void Repo<T>::upd_elem(T* el1, T* el2)
 {
-	for (int i = 0; i < this->size - 1; i++)
-		if (elements[i] == el)
+	for (int i = 0; i < this->elem.size(); i++)
+	{
+		if (*(this->get_elem(i)) == *el1)
 		{
-			for (int j = i; j < this->size - 1; j++)
-				elements[j] = elements[j + 1];
-			this->size--;
+			delete this->elem[i];
+			this->elem[i] = el2->clone();
+			this->saveToFile();
+			return;
 		}
-	if (elements[this->size - 1] == el)
-		this->size--;
+	}
 }
-template <class T>
-int Repo<T>::find_elem(T el)
+template<class T>
+int Repo<T>::find_elem(T* el)
 {
-	for (int i = 0; i < this->size; i++)
-		if (elements[i] == el)
+	for (int i = 0; i < this->elem.size(); i++)
+	{
+		if (*(this->get_elem(i)) == *el)
 			return i;
+	}
 	return -1;
 }
-template <class T>
-void Repo<T>::upd_elem(T& el1, T& el2)
+template<class T>
+void Repo<T>::del_elem(T* el)
 {
-	for (int i = 0; i < this->size; i++)
-		if (elements[i] == el1)
-			elements[i] = el2;
+	for (int i = 0; i < this->elem.size(); i++)
+	{
+		if (**(this->elem.begin() + i) == *el)
+		{
+			delete this->elem[i];
+			this->elem.erase(this->elem.begin() + i);
+			return;
+		}
+	}
 }

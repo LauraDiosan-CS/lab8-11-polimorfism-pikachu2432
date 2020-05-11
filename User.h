@@ -10,7 +10,8 @@ public:
 	User() {}
 	~User() {}
 	User(string u, string p);
-	
+	User* clone();
+
 	string get_user();
 	string get_pass();
 	
@@ -27,6 +28,14 @@ User::User(string u, string p)
 {
 	user = u;
 	pass = p;
+}
+
+User* User::clone()
+{
+	User* nou = new User();
+	nou->set_user(user);
+	nou->set_pass(pass);
+	return nou;
 }
 
 string User::get_user()

@@ -5,38 +5,62 @@ template  <class T>
 class RepoCSV : public RepoFile<T>
 {
 public:
-	RepoCSV() {}
+	RepoCSV();
 	~RepoCSV() {}
-	RepoCSV(string);
+	RepoCSV(string nume);
 	void loadFromFile();
 	void saveToFile();
-	
 };
 
 template<class T>
-inline RepoCSV<T>::RepoCSV(string nume) :RepoFile<T>(nume)
-{}
+inline RepoCSV<T>::RepoCSV() : RepoFile() {}
+
+template<class T>
+inline RepoCSV<T>::RepoCSV(string nume):RepoFile<T>(nume) {}
 
 template<class T>
 void RepoCSV<T>::loadFromFile()
 {
-	string line;
-
-	ifstream f(RepoFile<T>::fileName);
-
-	while (getline(f, line)) 
+	ifstream f(RepoFile<T>::fis);
+	if (f.is_open())
 	{
-		T ob(line, ',');
-		Repo<T>::elem.push_back(ob);
+		string line;
+		this->empty_repo();
+		while (getline(f, line))
+		{
+			Garnitura* g = NULL;
+			if (line.substr(0, 2) == "M")
+			{
+				line.erase(0, 3);
+				g = new Marfa(line, ',');
+				if (this->find_elem(g) == -1)
+				{
+					RepoFile<T>::elem.push_back(g);
+				}
+			}
+			else if (line.substr(0, 2) == "P")
+				 {
+					 line.erase(0, 3);
+					 g = new Persoane(line, ',');
+					 if (this->find_elem(g) == -1)
+					 {
+						 RepoFile<T>::elem.push_back(g);
+					 }
+				 }
+		}
+		f.close();
 	}
 }
 
 template<class T>
 void RepoCSV<T>::saveToFile()
 {
-	ofstream f(RepoFile<T>::fileName);
-	for (T crt : Repo<T>::elem) 
+	ofstream f(RepoFile<T>::fis);
+	if (f.is_open())
 	{
-		f << crt.toStringDelimiter(',') << endl;
+		for (T* crt : RepoFile<T>::elem)
+		{
+			f << crt.toStringDelimiter(',') << endl;
+		}
 	}
 }

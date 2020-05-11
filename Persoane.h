@@ -20,12 +20,13 @@ public:
 	bool operator==(const Persoane& rhs) const;
 
 	string toString();
+	string toStringDelimiter(char delim);
 
 	//friend istream& operator>>(istream &is, Garnitura &v);
 	friend ostream& operator<<(ostream &os, Persoane &v);
 };
 
-Persoane::Persoane() :Garnitura()
+Persoane::Persoane():Garnitura()
 {
 	nr_loc = 0;
 }
@@ -76,6 +77,10 @@ bool Persoane::operator==(const Persoane& rhs) const
 string Persoane::toString()
 {
 	return model + ' ' + prod + ' ' + to_string(nr_vag) + ' ' + to_string(nr_loc) + ' ' + to_string(disp) + ' ' + to_string(rez);
+}
+string Persoane::toStringDelimiter(char delim)
+{
+	return model + delim + prod + delim + to_string(nr_vag) + delim + to_string(nr_loc) + delim + to_string(disp) + delim + to_string(rez);
 }
 /*
 istream& operator>>(istream &is, Persoane &p)

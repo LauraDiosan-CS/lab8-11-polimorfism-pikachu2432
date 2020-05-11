@@ -20,6 +20,7 @@ public:
 	bool operator==(const Marfa& rhs) const;
 
 	string toString();
+	string toStringDelimiter(char delim);
 
 	//friend istream& operator>>(istream &is, Garnitura &v);
 	friend ostream& operator<<(ostream &os, Marfa &v);
@@ -29,11 +30,11 @@ Marfa::Marfa() :Garnitura() {}
 Marfa::~Marfa() {}
 Marfa::Marfa(string m, string p, int n, string c, int d, int r):Garnitura(m, p, n, d, r)
 {
-	continut = c;
+	this->continut = c;
 }
 Marfa::Marfa(const Marfa& m) : Garnitura(m)
 {
-	continut = m.continut;
+	this->continut = m.continut;
 }
 
 Garnitura* Marfa::clone()
@@ -42,7 +43,7 @@ Garnitura* Marfa::clone()
 	nou->set_model(model);
 	nou->set_prod(prod);
 	nou->set_nr_vag(nr_vag);
-	nou->set_continut(continut);
+	nou->set_continut(this->continut);
 	nou->set_disp(disp);
 	nou->set_rez(rez);
 	
@@ -51,7 +52,7 @@ Garnitura* Marfa::clone()
 
 void Marfa::set_continut(string c)
 {
-	continut = c;
+	this->continut = c;
 }
 string Marfa::get_continut()
 {
@@ -73,6 +74,11 @@ string Marfa::toString()
 {
 	return model + ' ' + prod + ' ' + to_string(nr_vag) + ' ' + continut + ' ' + to_string(disp) + ' ' + to_string(rez);
 }
+string Marfa::toStringDelimiter(char delim)
+{
+	return model + delim + prod + delim + to_string(nr_vag) + delim + continut + delim + to_string(disp) + delim + to_string(rez);
+}
+
 /*
 istream& operator>>(istream &is, Marfa &m)
 {
