@@ -15,7 +15,7 @@ public:
 	~Repo();
 
 	Repo<T>& operator=(const Repo<T> &v);
-	Repo<T> get_all();
+	vector<T*> get_all();
 	int get_size();
 	T* get_elem(int i);
 
@@ -65,7 +65,7 @@ Repo<T>& Repo<T>::operator=(const Repo<T> &v)
 }
 
 template<class T>
-Repo<T> Repo<T>::get_all()
+vector<T*> Repo<T>::get_all()
 {
 	return elem;
 }
@@ -91,13 +91,12 @@ void Repo<T>::add_elem(T* el)
 template<class T>
 void Repo<T>::upd_elem(T* el1, T* el2)
 {
-	for (int i = 0; i < this->elem.size(); i++)
+	for (int i = 0; i < elem.size(); i++)
 	{
 		if (*(this->get_elem(i)) == *el1)
 		{
 			delete this->elem[i];
 			this->elem[i] = el2->clone();
-			this->saveToFile();
 			return;
 		}
 	}

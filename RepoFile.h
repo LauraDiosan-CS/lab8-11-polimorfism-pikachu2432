@@ -74,7 +74,7 @@ void RepoFile<T>::add_elem(T* el)
 template<class T>
 void RepoFile<T>::upd_elem(T* el1, T* el2)
 {
-	for (int i = 0; i < this->elem.size(); i++)
+	for (int i = 0; i < elem.size(); i++)
 	{
 		if (*(this->get_elem(i)) == *el1)
 		{

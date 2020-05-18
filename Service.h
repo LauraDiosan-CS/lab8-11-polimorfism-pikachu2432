@@ -2,22 +2,21 @@
 #include "Marfa.h"
 #include "Persoane.h"
 #include "User.h"
+#include "Repo.h"
 #include "RepoCSV.h"
 #include "RepoTXT.h"
+#include <algorithm>
 
 class Service
 {
 private:
-	RepoFile<Garnitura>* repo_g;
-	RepoFile<User>* repo_u;
+	Repo<Garnitura>* repo_g;
+	Repo<User>* repo_u;
 
 public:
-	Service() {}
-	Service(RepoFile<Garnitura>* rg, RepoFile<User>* ru);
+	Service();
+	Service(Repo<Garnitura>* rg, Repo<User>* ru);
 	~Service() {}
-
-	//bool log_in(string u, string p);
-	//void log_out(string u, string p);
 	
 	vector<Garnitura*> get_all_garnituri();
 	vector<User*> get_all_users();
@@ -27,24 +26,38 @@ public:
 	void upd_u(string u1, string p1, string u2, string p2);
 	int find_u(string u, string p);
 	void del_u(string u, string p);
+	
 	//garnitura
 	void add_g(string m, string p, int n, int d, int r);
 	void upd_g(string m1, string p1, int n1, int d1, int r1, string m2, string p2, int n2, int d2, int r2);
 	int find_g(string m, string p, int n, int d, int r);
 	void del_g(string m, string p, int n, int d, int r);
+	//Garnitura* get_g(int pos) throw(RepoException);
+	
 	//marfa
 	void add_m(string m, string p, int n, string c, int d, int r);
 	void upd_m(string m1, string p1, int n1, string c1, int d1, int r1, string m2, string p2, int n2, string c2, int d2, int r2);
 	int find_m(string m, string p, int n, string c, int d, int r);
 	void del_m(string m, string p, int n, string c, int d, int r);
+	//Marfa* get_m(int pos) throw(RepoException);
+	
 	//persoane
 	void add_p(string m, string p, int n, int nr, int d, int r);
 	void upd_p(string m1, string p1, int n1, int nr1, int d1, int r1, string m2, string p2, int n2, int nr2, int d2, int r2);
 	int find_p(string m, string p, int n, int nr, int d, int r);
 	void del_p(string m, string p, int n, int nr, int d, int r);
-};
+	//Persoane* get_p(int pos) throw(RepoException);
 
-Service::Service(RepoFile<Garnitura>* rg, RepoFile<User>* ru)
+	vector<Garnitura*> sort_prod();
+	vector<Garnitura*> sort_nr_vag();
+	int cumpara_garnituri(string continut, int cantitate);
+};
+Service::Service()
+{
+	repo_g = new Repo<Garnitura>();
+	repo_u = new Repo<User>();
+}
+Service::Service(Repo<Garnitura>* rg, Repo<User>* ru)
 {
 	this->repo_g = rg;
 	this->repo_u = ru;
@@ -105,6 +118,11 @@ void Service::del_g(string m, string p, int n, int d, int r)
 	repo_g->del_elem(g1);
 }
 
+/*Garnitura* Service::get_g(int pos) throw(exception)
+{
+	return this->repo_g->get_elem(pos);
+}*/
+
 void Service::add_m(string m, string p, int n, string c, int d, int r)
 {
 	Garnitura* m1 = new Marfa(m, p, n, c, d, r);
@@ -126,6 +144,10 @@ void Service::del_m(string m, string p, int n, string c, int d, int r)
 	Garnitura* m1 = new Marfa(m, p, n, c, d, r);
 	repo_g->del_elem(m1);
 }
+/*Marfa* Service::get_m(int pos) throw(RepoException)
+{
+	return this->repo_g->get_elem(pos);
+}*/
 
 void Service::add_p(string m, string p, int n, int nr, int d, int r)
 {
@@ -147,4 +169,48 @@ void Service::del_p(string m, string p, int n, int nr, int d, int r)
 {
 	Garnitura* p1 = new Persoane(m, p, n, nr, d, r);
 	repo_g->del_elem(p1);
+}
+/*Persoane::get_p(int pos) throw(RepoException)
+{
+	return this->repo_g->get_elem(pos);
+}*/
+
+bool compara_prod(Garnitura* g1, Garnitura* g2)
+{
+	return g1->get_prod() < g2->get_prod();
+}
+vector<Garnitura*> Service::sort_prod()
+{
+	vector<Garnitura*> garnituri = this->repo_g->get_all();
+	sort(garnituri.begin(), garnituri.end(), compara_prod);
+	return garnituri;
+}
+
+bool compara_vag(Garnitura* g1, Garnitura* g2)
+{
+	return g1->get_nr_vag() < g2->get_nr_vag();
+}
+vector<Garnitura*> Service::sort_nr_vag()
+{
+	vector<Garnitura*> garnituri = this->repo_g->get_all();
+	sort(garnituri.begin(), garnituri.end(), compara_vag);
+	return garnituri;
+}
+int Service::cumpara_garnituri(string model, int cantitate)
+{
+	vector<Garnitura*> garnituri = this->repo_g->get_all();
+	for (Garnitura* g : garnituri)
+	{
+		if (g->get_model() == model)
+			if (g->get_disp() >= cantitate)
+			{
+				g->set_disp(g->get_disp() - cantitate);
+				return 0;
+			}
+			else
+			{
+				return -1;
+			}
+	}
+	return -2;
 }

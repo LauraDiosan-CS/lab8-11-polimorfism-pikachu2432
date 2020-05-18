@@ -9,7 +9,7 @@ using namespace std;
 int main()
 {
 	UI u;
-	//teste();
+	teste();
 	u.start();
 	return 0;
 }

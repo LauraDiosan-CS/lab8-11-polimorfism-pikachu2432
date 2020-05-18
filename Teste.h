@@ -176,8 +176,33 @@ void test_txt()
 
 void test_live()
 {
+	/*
+	Marfa g1("104", "Fleishmann", 8, "carbuni", 30, 20);
+	Marfa g2("104", "Aron", 11, "benzina", 12, 9);
+	Persoane g3("106", "Alonso", 20, 300, 10, 2);
+	Marfa g4("103", "Amarra", 20, "petrol", 40, 10);
+	Marfa g5("105", "Fierra", 12, "lemn", 13, 11);
 	
-
+	Service service;
+	try 
+	{
+		service.add_m("104", "Fleishmann", 8, "carbuni", 30, 20);
+		service.add_m("104", "Aron", 11, "benzina", 12, 9);
+		service.add_p("106", "Alonso", 20, 300, 10, 2);
+		service.add_m("103", "Amarra", 20, "petrol", 40, 10);
+		service.add_m("105", "Fierra", 12, "lemn", 13, 11);
+	}
+	catch (…) 
+	{
+		assert(false);
+	}
+	assert(service.get_size() == 5);
+	assert(service.get_elem(0).get_model() == 104);
+	assert(service.get_elem(1).get_model() == 105);
+	assert(service.get_elem(2).get_model() == 106);
+	assert(service.get_elem(3).get_model() == 103);
+	assert(service.get_elem(4).get_model() == 107);
+	*/
 }
 
 void test_service()
@@ -211,5 +236,5 @@ void teste()
 	test_csv();
 	test_txt();
 
-	test_service();
+	//test_service();
 }
