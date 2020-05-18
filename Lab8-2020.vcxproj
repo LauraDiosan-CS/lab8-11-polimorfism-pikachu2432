@@ -126,7 +126,6 @@
     <ClCompile Include="app.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Exceptii.h" />
     <ClInclude Include="Marfa.h" />
     <ClInclude Include="Persoane.h" />
     <ClInclude Include="Repo.h" />
@@ -138,6 +137,10 @@
     <ClInclude Include="UI.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="Garnitura.h" />
+    <ClInclude Include="ValidExceptie.h" />
+    <ClInclude Include="ValidGarnitura.h" />
+    <ClInclude Include="ValidMarfa.h" />
+    <ClInclude Include="ValidPersoane.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -50,10 +50,19 @@
     <ClInclude Include="UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Exceptii.h">
+    <ClInclude Include="Repo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Repo.h">
+    <ClInclude Include="ValidGarnitura.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ValidMarfa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ValidPersoane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ValidExceptie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
